@@ -16,14 +16,15 @@ class FacilityApiTest extends TestCase
             'name' => 'Hall A',
             'type' => 'Hall',
             'description' => 'Desc',
-            'capacity' => 50
+            'capacity' => 50,
+            'location' => 'Building 1, Floor 2'
         ]);
 
         $response->assertStatus(200)
                  ->assertJsonPath('name', 'Hall A')
-                 ->assertJsonPath('capacity', 50);
+                 ->assertJsonPath('location', 'Building 1, Floor 2');
 
-        $this->assertDatabaseHas('facilities', ['name' => 'Hall A', 'capacity' => 50]);
+        $this->assertDatabaseHas('facilities', ['name' => 'Hall A', 'location' => 'Building 1, Floor 2']);
     }
 
     public function test_can_list_facilities_with_pagination()

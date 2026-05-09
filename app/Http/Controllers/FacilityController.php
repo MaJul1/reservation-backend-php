@@ -18,7 +18,8 @@ class FacilityController extends Controller
                     new OA\Property(property: "name", type: "string"),
                     new OA\Property(property: "type", type: "string"),
                     new OA\Property(property: "description", type: "string"),
-                    new OA\Property(property: "capacity", type: "integer")
+                    new OA\Property(property: "capacity", type: "integer"),
+                    new OA\Property(property: "location", type: "string")
                 ]
             )
         ),
@@ -33,6 +34,7 @@ class FacilityController extends Controller
             'type' => 'required|string',
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
+            'location' => 'nullable|string',
         ]);
 
         $facility = Facility::create($validated);

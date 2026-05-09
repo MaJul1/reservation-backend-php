@@ -15,6 +15,7 @@ class Facility extends Model
         'type',
         'description',
         'capacity',
+        'location',
     ];
 
     public function reservations(): HasMany

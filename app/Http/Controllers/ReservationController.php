@@ -23,7 +23,8 @@ class ReservationController extends Controller
                     new OA\Property(property: "firstName", type: "string"),
                     new OA\Property(property: "lastName", type: "string"),
                     new OA\Property(property: "phoneNumber", type: "string"),
-                    new OA\Property(property: "email", type: "string")
+                    new OA\Property(property: "email", type: "string"),
+                    new OA\Property(property: "purpose", type: "string")
                 ]
             )
         ),
@@ -41,6 +42,7 @@ class ReservationController extends Controller
             'lastName' => 'required|string',
             'phoneNumber' => 'required|string',
             'email' => 'required|email',
+            'purpose' => 'nullable|string',
         ]);
 
         $start = Carbon::parse($validated['start']);
@@ -60,6 +62,7 @@ class ReservationController extends Controller
             'phone_number' => $validated['phoneNumber'],
             'email' => $validated['email'],
             'status' => 'pending',
+            'purpose' => $validated['purpose'],
         ]);
 
         return response()->json($reservation, 200);

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('phone_number');
             $table->string('email');
             $table->string('status')->default('pending');
+            $table->string('purpose')->nullable();
             $table->timestamps();
         });
     }

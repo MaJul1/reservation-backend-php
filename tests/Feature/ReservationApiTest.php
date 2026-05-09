@@ -14,7 +14,26 @@ class ReservationApiTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->facility = Facility::create(['name' => 'Room', 'type' => 'T', 'capacity' => 10]);
+        $this->facility = Facility::create(['name' => 'Room', 'type' => 'T', 'capacity' => 10, 'location' => 'L']);
+    }
+
+    public function test_can_create_reservation_with_purpose()
+    {
+        $response = $this->postJson('/api/reservation/create-reservation', [
+            'facilityId' => $this->facility->id,
+            'start' => '2026-06-01 10:00:00',
+            'end' => '2026-06-01 12:00:00',
+            'firstName' => 'John',
+            'lastName' => 'Doe',
+            'phoneNumber' => '123',
+            'email' => 'john@example.com',
+            'purpose' => 'Meeting'
+        ]);
+
+        $response->assertStatus(200)
+                 ->assertJsonPath('purpose', 'Meeting');
+
+        $this->assertDatabaseHas('reservations', ['purpose' => 'Meeting']);
     }
 
     public function test_cannot_create_overlapping_reservation()

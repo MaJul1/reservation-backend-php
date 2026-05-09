@@ -33,6 +33,9 @@
                                     },
                                     "capacity": {
                                         "type": "integer"
+                                    },
+                                    "location": {
+                                        "type": "string"
                                     }
                                 },
                                 "type": "object"
@@ -152,6 +155,9 @@
                                         "type": "string"
                                     },
                                     "email": {
+                                        "type": "string"
+                                    },
+                                    "purpose": {
                                         "type": "string"
                                     }
                                 },

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservation;
-use App\Models\Resource;
+use App\Models\Facility;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use OpenApi\Attributes as OA;
@@ -19,7 +19,7 @@ class ReservationController extends Controller
                 properties: [
                     new OA\Property(property: "start", type: "string", format: "date-time"),
                     new OA\Property(property: "end", type: "string", format: "date-time"),
-                    new OA\Property(property: "resourceId", type: "integer"),
+                    new OA\Property(property: "facilityId", type: "integer"),
                     new OA\Property(property: "firstName", type: "string"),
                     new OA\Property(property: "lastName", type: "string"),
                     new OA\Property(property: "phoneNumber", type: "string"),
@@ -34,7 +34,7 @@ class ReservationController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'resourceId' => 'required|exists:resources,id',
+            'facilityId' => 'required|exists:facilities,id',
             'start' => 'required|date',
             'end' => 'required|date|after:start',
             'firstName' => 'required|string',
@@ -45,14 +45,14 @@ class ReservationController extends Controller
 
         $start = Carbon::parse($validated['start']);
         $end = Carbon::parse($validated['end']);
-        $resourceId = $validated['resourceId'];
+        $facilityId = $validated['facilityId'];
 
-        if ($this->hasOverlap($resourceId, $start, $end)) {
+        if ($this->hasOverlap($facilityId, $start, $end)) {
             return response()->json(['message' => 'Overlapping reservation exists'], 409);
         }
 
         $reservation = Reservation::create([
-            'resource_id' => $resourceId,
+            'facility_id' => $facilityId,
             'start' => $start,
             'end' => $end,
             'first_name' => $validated['firstName'],
@@ -65,9 +65,9 @@ class ReservationController extends Controller
         return response()->json($reservation, 200);
     }
 
-    private function hasOverlap($resourceId, $start, $end, $excludeId = null)
+    private function hasOverlap($facilityId, $start, $end, $excludeId = null)
     {
-        $query = Reservation::where('resource_id', $resourceId)
+        $query = Reservation::where('facility_id', $facilityId)
             ->where(function ($q) use ($start, $end) {
                 $q->where(function ($inner) use ($start, $end) {
                     $inner->where('start', '<', $end)
@@ -135,10 +135,10 @@ class ReservationController extends Controller
     }
 
     #[OA\Get(
-        path: "/api/reservation/get-reservation-by-resource/{resourceId}",
+        path: "/api/reservation/get-reservation-by-facility/{facilityId}",
         tags: ["Reservation"],
         parameters: [
-            new OA\Parameter(name: "resourceId", in: "path", required: true, schema: new OA\Schema(type: "integer")),
+            new OA\Parameter(name: "facilityId", in: "path", required: true, schema: new OA\Schema(type: "integer")),
             new OA\Parameter(name: "size", in: "query", schema: new OA\Schema(type: "integer")),
             new OA\Parameter(name: "page", in: "query", schema: new OA\Schema(type: "integer")),
             new OA\Parameter(name: "sortBy", in: "query", schema: new OA\Schema(type: "string"))
@@ -147,12 +147,12 @@ class ReservationController extends Controller
             new OA\Response(response: 200, description: "OK")
         ]
     )]
-    public function getByResource(Request $request, $resourceId)
+    public function getByFacility(Request $request, $facilityId)
     {
         $size = $request->query('size', 10);
         $sortBy = $request->query('sortBy', 'id');
 
-        $query = Reservation::where('resource_id', $resourceId);
+        $query = Reservation::where('facility_id', $facilityId);
 
         if ($sortBy) {
             $direction = 'asc';
@@ -261,7 +261,7 @@ class ReservationController extends Controller
         $newStart = Carbon::parse($validated['newStart']);
         $newEnd = Carbon::parse($validated['newEnd']);
 
-        if ($this->hasOverlap($reservation->resource_id, $newStart, $newEnd, $reservation->id)) {
+        if ($this->hasOverlap($reservation->facility_id, $newStart, $newEnd, $reservation->id)) {
             return response()->json(['message' => 'Overlapping reservation exists at new time'], 409);
         }
 

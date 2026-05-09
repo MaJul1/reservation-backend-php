@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Resource extends Model
+class Facility extends Model
 {
     use HasFactory;
 
@@ -14,6 +14,7 @@ class Resource extends Model
         'name',
         'type',
         'description',
+        'capacity',
     ];
 
     public function reservations(): HasMany

@@ -1,19 +1,19 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ResourceController;
+use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\ReservationController;
 
-// Resource Routes
-Route::post('/resource', [ResourceController::class, 'store']);
-Route::get('/resource/get-resources', [ResourceController::class, 'index']);
-Route::get('/resource/get-resources-info', [ResourceController::class, 'info']);
-Route::get('/resource/get-resrouce-by-id/{id}', [ResourceController::class, 'show']); // Typo as per spec
+// Facility Routes
+Route::post('/facility', [FacilityController::class, 'store']);
+Route::get('/facility/get-facilities', [FacilityController::class, 'index']);
+Route::get('/facility/get-facilities-info', [FacilityController::class, 'info']);
+Route::get('/facility/get-facility-by-id/{id}', [FacilityController::class, 'show']);
 
 // Reservation Routes
 Route::get('/reservation/get-reservations', [ReservationController::class, 'index']);
 Route::get('/reservation/get-reservation/{id}', [ReservationController::class, 'show']);
-Route::get('/reservation/get-reservation-by-resource/{resourceId}', [ReservationController::class, 'getByResource']);
+Route::get('/reservation/get-reservation-by-facility/{facilityId}', [ReservationController::class, 'getByFacility']);
 Route::post('/reservation/create-reservation', [ReservationController::class, 'store']);
 Route::post('/reservation/ongoing-reservation', [ReservationController::class, 'ongoing']);
 Route::post('/reservation/cancel-reservation', [ReservationController::class, 'cancel']);

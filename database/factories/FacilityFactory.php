@@ -2,13 +2,16 @@
 
 namespace Database\Factories;
 
+use App\Models\Facility;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Resource>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Facility>
  */
-class ResourceFactory extends Factory
+class FacilityFactory extends Factory
 {
+    protected $model = Facility::class;
+
     /**
      * Define the model's default state.
      *
@@ -20,6 +23,7 @@ class ResourceFactory extends Factory
             'name' => $this->faker->company(),
             'type' => $this->faker->word(),
             'description' => $this->faker->sentence(),
+            'capacity' => $this->faker->numberBetween(10, 100),
         ];
     }
 }

@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Resource;
+use App\Models\Facility;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
-class ResourceController extends Controller
+class FacilityController extends Controller
 {
     #[OA\Post(
-        path: "/api/resource",
-        tags: ["Resource"],
+        path: "/api/facility",
+        tags: ["Facility"],
         requestBody: new OA\RequestBody(
             required: true,
             content: new OA\JsonContent(
                 properties: [
                     new OA\Property(property: "name", type: "string"),
                     new OA\Property(property: "type", type: "string"),
-                    new OA\Property(property: "description", type: "string")
+                    new OA\Property(property: "description", type: "string"),
+                    new OA\Property(property: "capacity", type: "integer")
                 ]
             )
         ),
@@ -31,28 +32,29 @@ class ResourceController extends Controller
             'name' => 'required|string',
             'type' => 'required|string',
             'description' => 'nullable|string',
+            'capacity' => 'required|integer|min:1',
         ]);
 
-        $resource = Resource::create($validated);
+        $facility = Facility::create($validated);
 
-        return response()->json($resource, 200);
+        return response()->json($facility, 200);
     }
 
     #[OA\Get(
-        path: "/api/resource/get-resources-info",
-        tags: ["Resource"],
+        path: "/api/facility/get-facilities-info",
+        tags: ["Facility"],
         responses: [
             new OA\Response(response: 200, description: "OK")
         ]
     )]
     public function info()
     {
-        return response()->json(Resource::all(), 200);
+        return response()->json(Facility::all(), 200);
     }
 
     #[OA\Get(
-        path: "/api/resource/get-resources",
-        tags: ["Resource"],
+        path: "/api/facility/get-facilities",
+        tags: ["Facility"],
         parameters: [
             new OA\Parameter(name: "page", in: "query", schema: new OA\Schema(type: "integer")),
             new OA\Parameter(name: "size", in: "query", schema: new OA\Schema(type: "integer")),
@@ -67,7 +69,7 @@ class ResourceController extends Controller
         $size = $request->query('size', 10);
         $sortBy = $request->query('sortBy', 'id');
 
-        $query = Resource::query();
+        $query = Facility::query();
 
         if ($sortBy) {
             $direction = 'asc';
@@ -82,8 +84,8 @@ class ResourceController extends Controller
     }
 
     #[OA\Get(
-        path: "/api/resource/get-resrouce-by-id/{id}",
-        tags: ["Resource"],
+        path: "/api/facility/get-facility-by-id/{id}",
+        tags: ["Facility"],
         parameters: [
             new OA\Parameter(name: "id", in: "path", required: true, schema: new OA\Schema(type: "integer"))
         ],
@@ -93,10 +95,10 @@ class ResourceController extends Controller
     )]
     public function show($id)
     {
-        $resource = Resource::find($id);
-        if (!$resource) {
-            return response()->json(['message' => 'Resource not found'], 404);
+        $facility = Facility::find($id);
+        if (!$facility) {
+            return response()->json(['message' => 'Facility not found'], 404);
         }
-        return response()->json($resource, 200);
+        return response()->json($facility, 200);
     }
 }

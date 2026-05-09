@@ -11,7 +11,7 @@ class Reservation extends Model
     use HasFactory;
 
     protected $fillable = [
-        'resource_id',
+        'facility_id',
         'start',
         'end',
         'first_name',
@@ -26,8 +26,8 @@ class Reservation extends Model
         'end' => 'datetime',
     ];
 
-    public function resource(): BelongsTo
+    public function facility(): BelongsTo
     {
-        return $this->belongsTo(Resource::class);
+        return $this->belongsTo(Facility::class);
     }
 }

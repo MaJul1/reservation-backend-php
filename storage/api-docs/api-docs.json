@@ -1,0 +1,383 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "resource-reservation-system-backend | v1",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:5007/"
+        }
+    ],
+    "paths": {
+        "/api/reservation/create-reservation": {
+            "post": {
+                "tags": [
+                    "Reservation"
+                ],
+                "operationId": "37865bdaebd77f578db9f3469331aee5",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "start": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "end": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "resourceId": {
+                                        "type": "integer"
+                                    },
+                                    "firstName": {
+                                        "type": "string"
+                                    },
+                                    "lastName": {
+                                        "type": "string"
+                                    },
+                                    "phoneNumber": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/reservation/get-reservations": {
+            "get": {
+                "tags": [
+                    "Reservation"
+                ],
+                "operationId": "804fe0a05db4464f164365a7cf88c47f",
+                "parameters": [
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/reservation/get-reservation/{id}": {
+            "get": {
+                "tags": [
+                    "Reservation"
+                ],
+                "operationId": "f8babaed79ae193040060380b9b953c8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/reservation/get-reservation-by-resource/{resourceId}": {
+            "get": {
+                "tags": [
+                    "Reservation"
+                ],
+                "operationId": "1d4ffd354698d64c33ac110b20e84647",
+                "parameters": [
+                    {
+                        "name": "resourceId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/reservation/ongoing-reservation": {
+            "post": {
+                "tags": [
+                    "Reservation"
+                ],
+                "operationId": "22af182359c82ea027800bf49512d97f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/reservation/cancel-reservation": {
+            "post": {
+                "tags": [
+                    "Reservation"
+                ],
+                "operationId": "c9d22b77b17da77f20a21b69650b6a40",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/reservation/done-reservation": {
+            "post": {
+                "tags": [
+                    "Reservation"
+                ],
+                "operationId": "19a22360b347fc5c87091baacad6f460",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/reservation/move-reservation": {
+            "post": {
+                "tags": [
+                    "Reservation"
+                ],
+                "operationId": "6ae7a52ec0262f1905de77c51c3c335f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "type": "integer"
+                                    },
+                                    "newStart": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "newEnd": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/resource": {
+            "post": {
+                "tags": [
+                    "Resource"
+                ],
+                "operationId": "9e8c2d17de090461e35abd383edafa68",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/resource/get-resources-info": {
+            "get": {
+                "tags": [
+                    "Resource"
+                ],
+                "operationId": "caf63f2fb00b841b4fd0cb44a32c9e8f",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/resource/get-resources": {
+            "get": {
+                "tags": [
+                    "Resource"
+                ],
+                "operationId": "c223976809eedff60f5c1e55641725f1",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sortBy",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/resource/get-resrouce-by-id/{id}": {
+            "get": {
+                "tags": [
+                    "Resource"
+                ],
+                "operationId": "83001e7a04384715bd5f7920e96b35ef",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Reservation",
+            "description": "Reservation"
+        },
+        {
+            "name": "Resource",
+            "description": "Resource"
+        }
+    ]
+}
